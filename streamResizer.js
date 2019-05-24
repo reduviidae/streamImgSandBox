@@ -8,36 +8,46 @@ const fs = require("fs");
 
 const sharp = require("sharp");
 
-const resizeTransform = sharp().resize(300, 300);
-
 const imageUri =
   "https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595";
 
-// determine whether http or https is appropriate
-let httpLib = http;
-if (/^https/.test(imageUri)) {
-  httpLib = https;
+const resizeAndSave = (downloadStream, size) => {
+  const resizeTransform = sharp().resize(size[0], size[1]);
+
+  return new Promise((resolve, reject) => {
+    const outPath = `./output-${ size[0] }x${ size[1] }.jpg`;
+    console.log('WRITING', outPath);
+    const writeStream = fs.createWriteStream(outPath);
+
+    downloadStream.pipe(resizeTransform).pipe(writeStream);
+    downloadStream.on('end', () => resolve(outPath));
+    writeStream.on('error', reject);
+    resizeTransform.on('error', reject);
+  })
 }
 
-// read image
-httpLib.get(imageUri, downloadStream => {
-  const writeStream = fs.createWriteStream("./output.jpg");
+const resizeImage = (imageUri, sizes) => {
+  return new Promise((resolve, reject) => {
+    let httpLib = http;
+    if (/^https/.test(imageUri)) {
+      httpLib = https;
+    }
 
-  downloadStream.pipe(resizeTransform).pipe(writeStream);
+    httpLib.get(imageUri, downloadStream => {
+      downloadStream.on('error', reject);
 
-  downloadStream.on("end", () => {
-    console.log("downloadStream", "END");
+      Promise.all(
+        sizes.map(size => resizeAndSave(downloadStream, size))
+      )
+      .then(resolve)
+      .catch(reject);
+    });
   });
+};
 
-  writeStream.on("error", err => {
-    console.log("writeStream", err);
-  });
-
-  downloadStream.on("error", err => {
-    console.log("downloadStream", err);
-  });
-
-  resizeTransform.on("error", err => {
-    console.log("resizeTransform", err);
-  });
-});
+resizeImage(imageUri, [
+  [300, 300],
+  [600, 450]
+])
+.then(thumbnailPath => console.log('DONE', thumbnailPath))
+.catch(err => console.log(err));
