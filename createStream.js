@@ -9,7 +9,7 @@ const createFrame = (width, height) => {
       channels: 4,
       background: { r: 255, g: 255, b: 255, alpha: 1 }
     }
-  });
+  }).png()
 
   return new Promise((resolve, reject) => {
     const outPath = `./artframe-${width}x${height}.png`;
@@ -26,5 +26,5 @@ const createFrame = (width, height) => {
 console.time("createFrame");
 createFrame(4200, 4800);
 console.timeEnd("createFrame");
-// 
+//
 // export default createFrame;
