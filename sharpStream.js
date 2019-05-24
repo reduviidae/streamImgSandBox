@@ -20,5 +20,5 @@ const createFrame = (width, height) => {
   })
 }
 console.time('createFrame')
-createFrame(newFrame, 4200, 4800)
+createFrame(4500, 5700)
 console.timeEnd('createFrame')
