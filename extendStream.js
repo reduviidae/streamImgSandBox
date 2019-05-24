@@ -23,4 +23,8 @@ const extendFrame = (frame, top, bottom, left, right, name) => {
 
 console.time("extendFrame")
 extendFrame("./artframe-4200x4800.png", 0, 900, 250, 250, "4500x5700")
+const used = process.memoryUsage();
+for (let key in used) {
+  console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+}
 console.timeEnd("extendFrame");

@@ -25,6 +25,10 @@ const createFrame = (width, height) => {
 
 console.time("createFrame");
 createFrame(4200, 4800);
+const used = process.memoryUsage();
+for (let key in used) {
+  console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+}
 console.timeEnd("createFrame");
 //
 // export default createFrame;
