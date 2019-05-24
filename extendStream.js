@@ -22,5 +22,5 @@ const extendFrame = (frame, top, bottom, left, right, name) => {
 };
 
 console.time("extendFrame")
-extendFrame("./artframe-4200x4800.png", 0, 900, 250, 250, "4500x5700")
+extendFrame("./output-300x300.jpg", 0, 900, 250, 250, "4500x5700")
 console.timeEnd("extendFrame");
