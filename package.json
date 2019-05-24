@@ -1,0 +1,22 @@
+{
+  "name": "streamimgsandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sharpStream.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reduviidae/streamImgSandBox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reduviidae/streamImgSandBox/issues"
+  },
+  "homepage": "https://github.com/reduviidae/streamImgSandBox#readme",
+  "dependencies": {
+    "sharp": "^0.22.1"
+  }
+}
